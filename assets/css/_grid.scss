@@ -1,0 +1,85 @@
+$number_of_columns: 12;
+$margin_right: 3%;
+$column_width: (100 - ($margin_right * ($number_of_columns - 1))) / $number_of_columns;
+
+
+
+@mixin span($span:1) {
+	width: $span * $column_width + ($margin_right * ($span - 1));
+}
+
+
+
+.span1,.span2,.span3,.span4,.span5,.span6,.span7,.span8,.span9,.span10,.span11 {
+	float: left;
+	min-height: 1px;
+	margin-right: ($margin_right);
+	background: #ccc;
+}
+
+@mixin push($push:1) {
+	margin-left: $push * $column_width + ($margin_right * $push);
+}
+
+.span1 {@include span(1);}
+.span2 {@include span(2);}
+.span3 {@include span(3);}
+.span4 {@include span(4);}
+.span5 {@include span(5);}
+.span6 {@include span(6);}
+.span7 {@include span(7);}
+.span8 {@include span(8);}
+.span9 {@include span(9);}
+.span10 {@include span(10);}
+.span11 {@include span(11);}
+.span12 {@include span(12);}
+
+
+.push1 {@include push(1);}
+.push2 {@include push(2);}
+.push3 {@include push(3);}
+.push4 {@include push(4);}
+.push5 {@include push(5);}
+.push6 {@include push(6);}
+
+
+
+.row {
+	width: 100%;
+	max-width: 1140px;
+	margin: 0 auto;
+	overflow: hidden;
+
+}
+
+.container {
+	padding-left: 60px;
+	padding-right: 60px;
+}
+
+
+
+
+/* Mobile */
+
+@media handheld, only screen and (max-width: 641px) {
+	
+	.row, body {
+	width: 100%;
+	min-width: 0;
+	margin-left: 0px;
+	margin-right: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+	}
+	
+	.span1,.span2,.span3,.span4,.span5,.span6,.span7,.span8,.span9,.span10,.span11 {
+	width: auto;
+	float: none;
+	margin-left: 0px;
+	margin-right: 0px;
+	padding-left: 20px;
+	padding-right: 20px;
+	}
+
+}
