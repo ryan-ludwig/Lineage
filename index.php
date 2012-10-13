@@ -11,18 +11,6 @@
 	<meta name="description" content="">
 	<meta name="author" content="Ryan Ludwig">
 
-	<meta name="viewport" content="width=device-width,initial-scale=1">
-
-	<!-- if greater than ie8 or not ie, serve css with mediaqueries -->
-	<!--[if gt IE 8]><!-->
-	<link rel="stylesheet" media="all" href="assets/css/main.css" />
-	<!--<![endif]-->
-
-	<!-- if ie8 or lower serve no mediaqueries -->
-	<!--[if lte IE 8]>
-	<link rel="stylesheet" media="all" href="assets/css/ie.css" />
-	<![endif]-->
-
 	<script src="assets/js/modernizr-2.0.6._development.js"></script>
 
 	<!-- get the device max resolution -->
@@ -34,15 +22,9 @@
 </head>
 <body>
 
-<div class="container">
-	<header>
 
-	</header>
-	<div id="main" role="main">
-
-
-
-
+<div id="main" role="main">
+	
 	<?php
 	ini_set('display_errors',1); 
 	error_reporting(E_ALL);
@@ -54,10 +36,7 @@
 
 		$data=simplexml_load_file("$feedquery");
 
-
-		
 		//echo out each indiviual
-		echo '<ul>';
 		foreach($data->individuals->i as $individual) :
 			$id = $individual['id'];
 			$first_name = $individual->f;
@@ -71,57 +50,56 @@
 			$has_children = $individual['p'];
 			$child_of = $individual['c'];
 
-			echo '<li><a name="id_' . $id . '"></a>' . $display_name;
-			
-			echo '<ul>';
+			echo '<div class="person">';
+				echo '<a name="id_' . $id . '"></a>';
+				echo '<h3>' . $display_name . '</h3>';
+				echo '<ul>';
 
-				if ($gender) {
-					echo '<li>';
-					if ($gender == "M") {
-						echo "Male";
-					}else if ($gender == "F") {
-						echo "Female";
+					if ($gender) {
+						echo '<li>';
+						if ($gender == "M") {
+							echo "Male";
+						}else if ($gender == "F") {
+							echo "Female";
+						}
+						echo '</li>';
 					}
-					echo '</li>';
-				}
-				if ($birth) {
-					echo '<li>Born: ' . format_date($birth) . '</li>';
-				}
-				if ($death) {
-					echo '<li>Died: ' . format_date($death) . '</li>';
-				}
+					if ($birth) {
+						echo '<li>Born: ' . format_date($birth) . '</li>';
+					}
+					if ($death) {
+						echo '<li>Died: ' . format_date($death) . '</li>';
+					}
 
-				if ($birth && $death) {
-					echo '<li>Lived ' . calculate_lifespan($birth, $death) . '</li>';
-				}
+					if ($birth && $death) {
+						echo '<li>Lived ' . calculate_lifespan($birth, $death) . '</li>';
+					}
 
-				if ($email) {
-					echo '<li>Email: <a href="mailto:' . $email . '">' . $email . '</a></li>';
-				}
+					if ($email) {
+						echo '<li>Email: <a href="mailto:' . $email . '">' . $email . '</a></li>';
+					}
 
-				if ($has_children) {
-					//echo '<li>Couple id:  ' . $has_children . '</li>';
-					echo '<li>Children <ul>';
-						echo return_children($data, $has_children);
-					echo '</ul></li>';
-				}
+					if ($has_children) {
+						echo '<li>Children';
+							echo '<ul>';
+								echo return_children($data, $has_children);
+							echo '</ul>';
+						echo '</li>';
+					}
 
-				if ($child_of) {
-					//echo '<li>Child of:  ' . $child_of . '</li>';
-					echo '<li>Parents <ul>';
-						echo return_parents($data, $child_of);
-					echo '</ul></li>';
-				}
+					if ($child_of) {
+						echo '<li>Parents';
+							echo '<ul>';
+								echo return_parents($data, $child_of);
+							echo '</ul>';
+						echo '</li>';
+					}
 				echo '</ul>';
 
-			echo '</li>';
-
+			echo '</div>';
 		endforeach;
-		echo '</ul>';
-
-
-
 	}
+
 
 	function format_date($date) {
 		//remove the excess 0;
@@ -142,7 +120,6 @@
 			if ((string) $passed_id == $id) {
 				echo '<a href="#id_' . $passed_id . '">' . $display_name . '</a>';
 			}
-
 		endforeach;
 	}
 
@@ -199,18 +176,7 @@
 			}
 		endforeach;
 	}
-
-
-
 	?>
-
-
-	</div>
-
-	<footer>
-
-	</footer>
-
 
 
 </div>
@@ -221,12 +187,6 @@
 <script>window.jQuery || document.write("<script src='assets/js/jquery-1.7.1.min.js'><\/script>")
 </script>
 
-
-<!-- load in zepto / jquery if you're IE.  http://zeptojs.com/
-<script>
-document.write('<script src="assets/js/' + ('__proto__' in {} ? 'zepto.0.8.min' : 'jquery-1.7.1.min') + '.js"><\/script>')
-</script>
- -->
 
 <script>
 	$(function() {
